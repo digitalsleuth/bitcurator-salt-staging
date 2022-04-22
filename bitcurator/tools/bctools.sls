@@ -7,7 +7,7 @@ bctools-source:
     - name: https://github.com/bitcurator/bitcurator-distro-tools
     - target: /tmp/bctools
     - user: root
-    - rev: master
+    - rev: main
     - force_clone: True
     - force_reset: True
     - require:
