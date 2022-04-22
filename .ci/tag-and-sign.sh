@@ -50,30 +50,30 @@ echo "==> Creating GitHub Release"
 RELEASE_ID=`curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -q https://api.github.com/repos/digitalsleuth/bitcurator-salt/releases -d "{\"tag_name\": \"$TAG_NAME\", \"prerelease\": $PRERELEASE}" | jq .id`
 
 echo "==> Downloading tar.gz file for tag from GitHub"
-curl -qL -o /tmp/bitcurator-salt-states-${TAG_NAME}.tar.gz https://github.com/digitalsleuth/bitcurator-salt/archive/$TAG_NAME.tar.gz
+curl -qL -o /tmp/bitcurator-salt-${TAG_NAME}.tar.gz https://github.com/digitalsleuth/bitcurator-salt/archive/$TAG_NAME.tar.gz
 
 echo "==> Generating SHA256 of tar.gz"
-shasum -a 256 /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz > /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.sha256
+shasum -a 256 /tmp/bitcurator-salt-$TAG_NAME.tar.gz > /tmp/bitcurator-salt-$TAG_NAME.tar.gz.sha256
 
 echo "==> Generating GPG Signature of SHA256"
-gpg --armor --clearsign --digest-algo SHA256 -u 4CF992E3 /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.sha256
+gpg --armor --clearsign --digest-algo SHA256 -u 4CF992E3 /tmp/bitcurator-salt-$TAG_NAME.tar.gz.sha256
 
 echo "==> Generating GPG Signature of tar.gz file"
-gpg --armor --detach-sign -u 4CF992E3 /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz
+gpg --armor --detach-sign -u 4CF992E3 /tmp/bitcurator-salt-$TAG_NAME.tar.gz
 
-echo "==> Uploading bitcurator-salt-states-$TAG_NAME.tar.gz.sha256"
-curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: text/plain" -q "https://uploads.github.com/repos/digitalsleuth/bitcurator-salt/releases/${RELEASE_ID}/assets?name=bitcurator-salt-states-${TAG_NAME}.tar.gz.sha256" --data-binary @/tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.sha256
+echo "==> Uploading bitcurator-salt-$TAG_NAME.tar.gz.sha256"
+curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: text/plain" -q "https://uploads.github.com/repos/digitalsleuth/bitcurator-salt/releases/${RELEASE_ID}/assets?name=bitcurator-salt-${TAG_NAME}.tar.gz.sha256" --data-binary @/tmp/bitcurator-salt-$TAG_NAME.tar.gz.sha256
 
-echo "==> Uploading bitcurator-salt-states-$TAG_NAME.tar.gz.sha256.asc"
-curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: text/plain" -q "https://uploads.github.com/repos/digitalsleuth/bitcurator-salt/releases/${RELEASE_ID}/assets?name=bitcurator-salt-states-${TAG_NAME}.tar.gz.sha256.asc" --data-binary @/tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.sha256.asc
+echo "==> Uploading bitcurator-salt-$TAG_NAME.tar.gz.sha256.asc"
+curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: text/plain" -q "https://uploads.github.com/repos/digitalsleuth/bitcurator-salt/releases/${RELEASE_ID}/assets?name=bitcurator-salt-${TAG_NAME}.tar.gz.sha256.asc" --data-binary @/tmp/bitcurator-salt-$TAG_NAME.tar.gz.sha256.asc
 
-echo "==> Uploading bitcurator-salt-states-$TAG_NAME.tar.gz.asc"
-curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: text/plain" -q "https://uploads.github.com/repos/digitalsleuth/bitcurator-salt/releases/${RELEASE_ID}/assets?name=bitcurator-salt-states-${TAG_NAME}.tar.gz.asc" --data-binary @/tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.asc
+echo "==> Uploading bitcurator-salt-$TAG_NAME.tar.gz.asc"
+curl -XPOST -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" -H "Content-Type: text/plain" -q "https://uploads.github.com/repos/digitalsleuth/bitcurator-salt/releases/${RELEASE_ID}/assets?name=bitcurator-salt-${TAG_NAME}.tar.gz.asc" --data-binary @/tmp/bitcurator-salt-$TAG_NAME.tar.gz.asc
 
-rm /tmp/bitcurator-salt-states-${TAG_NAME}.tar.gz
-rm /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.sha256
-rm /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.sha256.asc
-rm /tmp/bitcurator-salt-states-$TAG_NAME.tar.gz.asc
+rm /tmp/bitcurator-salt-${TAG_NAME}.tar.gz
+rm /tmp/bitcurator-salt-$TAG_NAME.tar.gz.sha256
+rm /tmp/bitcurator-salt-$TAG_NAME.tar.gz.sha256.asc
+rm /tmp/bitcurator-salt-$TAG_NAME.tar.gz.asc
 
 if [ "${STASH_RESULTS}" != "No local changes to save" ]; then
   git stash pop
