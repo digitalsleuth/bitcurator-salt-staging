@@ -5,7 +5,7 @@
   {% set home = "/home/" + user %}
 {% endif %}
 
-{% set dbus_address = salt['cmd.run']("dbus-launch | grep DBUS_SESSION_BUS_ADDRESS | cut -d= -f2-", shell="/bin/bash", runas={{ user }}, cwd=home, python_shell=True) %}
+{% set dbus_address = salt['cmd.run']("dbus-launch | grep DBUS_SESSION_BUS_ADDRESS | cut -d= -f2-", shell="/bin/bash", runas=user, cwd=home, python_shell=True) %}
 
 include:
   - bitcurator.config.user
@@ -21,7 +21,7 @@ bitcurator-theme-terminal-profile-file:
 
 bitcurator-theme-terminal-profile-install:
   cmd.run:
-    - name: dconf load /org/gnome/terminal/legacy/profiles:/ < /usr/share/bitcurator/resources/terminal-profile.txt
+    - name: dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < /usr/share/bitcurator/resources/terminal-profile.txt
     - runas: {{ user }}
     - cwd: {{ home }}
     - shell: /bin/bash
