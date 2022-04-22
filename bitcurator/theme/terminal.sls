@@ -2,7 +2,7 @@
 {%- if user == "root" -%}
   {%- set home = "/root" -%}
 {%- else -%}
-  {%- set home = salt['user.info'](user).home -%}
+  {% set home = "/home/" + user  %}
 {%- endif -%}
 {%- set dbus_address = salt['cmd.run']("dbus-launch | grep DBUS_SESSION_BUS_ADDRESS | cut -d= -f2-", shell="/bin/bash", runas=user, cwd=home, python_shell=True) -%}
 
