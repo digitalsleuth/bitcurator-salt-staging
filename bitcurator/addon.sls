@@ -5,6 +5,7 @@ include:
   - bitcurator.config
   - bitcurator.env
   - bitcurator.tools
+  - bitcurator.mounter
 
 bitcurator-version-file:
   file.managed:
@@ -19,3 +20,4 @@ bitcurator-version-file:
       - sls: bitcurator.config
       - sls: bitcurator.env
       - sls: bitcurator.tools
+      - sls: bitcurator.mounter

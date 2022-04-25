@@ -3,7 +3,7 @@
 include:
   - bitcurator.packages.docker
 
-mat-theme-cleanup-extra-apps:
+bitcurator-theme-cleanup-extra-apps:
   pkg.removed:
     - pkgs:
       - aisleriot
